@@ -62,8 +62,8 @@ public:
 
     void heapifydown(int i) {
 
-        l = 2*i + 1;
-        r = 2*i + 2;
+        int l = 2*i + 1;
+        int r = 2*i + 2;
         int smallest = i;
         if(elementAt(l) < elementAt(i))
             smallest = l;
@@ -90,7 +90,7 @@ public:
 
     }
 
-    void exists(int ele) {
+    int exists(int ele) {
 
           int i = 0, end = getSize();
           while(i < end) {
