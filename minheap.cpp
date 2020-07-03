@@ -79,10 +79,11 @@ public:
 
     void remove() {
 
-          if(size >= 0)
+          if(size > 0)
           {
               mtx.lock();
-              heap[0] = heap[getSize() - 1];  //not sure if we can access size directly?
+              swap(size - 1, 0);   //not sure if we can access size directly?
+              heap.pop_back();
               size--;
               mtx.unlock();
               heapifydown(0);
