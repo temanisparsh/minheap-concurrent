@@ -16,8 +16,10 @@ private:
 public:
     void swap(int i, int j)
     {
-        int temp1 = elementAt(i);
-        int temp2 = elementAt(j);
+        //int temp1 = elementAt(i);
+        //int temp2 = elementAt(j);
+        int temp1 = heap[i];
+        int temp2 = heap[j];
         updateElement(i, temp2);
         updateElement(j, temp1);
     }
@@ -27,18 +29,20 @@ public:
         heap[pos] = ele;
     }
 
-    int elementAt(int i)
+    /*int elementAt(int i)
     {
         int ans = heap[i];
         return ans;
-    }
+    }*/
 
     void heapify(int i)
     {
         int parent = (i - 1) / 2;
-        if (elementAt(parent) > 0)
+        //if (elementAt(parent) > 0)
+        if(heap[parent] > 0)
         {
-            if (elementAt(i) > elementAt(parent))
+            //if (elementAt(i) < elementAt(parent))
+            if(heap[i] < heap[parent])
             {
                 swap(i, parent);
                 heapify(parent);
@@ -49,52 +53,56 @@ public:
     void insert(int ele)
     {
         mtx.lock();
+
         heap.push_back(ele);
         size++;
         heapify(getSize() - 1);
+
         mtx.unlock();
     }
 
-    void heapifydown(int i)
+    void heapifydown(int i, int hsize)
     {
         int l = 2 * i + 1;
         int r = 2 * i + 2;
         int smallest = i;
-        if (elementAt(l) < elementAt(i))
+        //if (l < hsize && elementAt(l) < elementAt(smallest))
+        if(l < hsize && heap[l] < heap[smallest])
             smallest = l;
-        if (elementAt(r) < elementAt(smallest))
+        //if (r < hsize && elementAt(r) < elementAt(smallest))
+        if(r < hsize && heap[r] < heap[smallest])
             smallest = r;
         if (smallest != i)
         {
             swap(i, smallest);
-            heapifydown(smallest);
+            heapifydown(smallest, hsize);
         }
     }
 
     void remove()
     {
-
         mtx.lock();
 
         if (size > 0)
         {
             swap(size - 1, 0); //not sure if we can access size directly?
-            heap.pop_back();
             size--;
-            heapifydown(0);
+            heap.pop_back();
+            heapifydown(0, size);
         }
+
         mtx.unlock();
     }
 
     int exists(int ele)
     {
-
         mtx.lock_shared();
 
-        int i = 0, end = getSize();
-        while (i < end)
+        int i = 0, hsize = getSize();
+        while (i < hsize)
         {
-            if (elementAt(i) == ele)
+            //if (elementAt(i) == ele)
+            if (heap[i] == ele)
                 return 1;
             i++;
         }
@@ -105,13 +113,13 @@ public:
 
     void print()
     {
-
         mtx.lock();
 
         int hsize = getSize(), i = 0;
         while (i < hsize)
         {
-            cout << elementAt(i) << " ";
+            //cout << elementAt(i) << " ";
+            cout << heap(i) << " ";
             i++;
         }
         cout << "\n";
@@ -126,7 +134,7 @@ public:
     }
 };
 
-int main()
-{
-    return 0;
-}
+int main()	
+{	
+    return 0;	
+} 
