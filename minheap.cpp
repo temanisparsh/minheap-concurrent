@@ -14,26 +14,22 @@ private:
     int size = 0;
 
 public:
-
-    void swap(int i, int j) {
-
+    void swap(int i, int j)
+    {
         int temp1 = elementAt(i);
         int temp2 = elementAt(j);
         updateElement(i, temp2);
         updateElement(j, temp1);
-
     }
 
-    void updateElement(int pos, int ele) {
-        mtx.lock();
+    void updateElement(int pos, int ele)
+    {
         heap[pos] = ele;
-        mtx.unlock();
     }
 
-    int elementAt(int i) {
-        mtx.lock_shared();
+    int elementAt(int i)
+    {
         int ans = heap[i];
-        mtx.unlock_shared();
         return ans;
     }
 
@@ -55,69 +51,77 @@ public:
         mtx.lock();
         heap.push_back(ele);
         size++;
-        mtx.unlock();
-
         heapify(getSize() - 1);
+        mtx.unlock();
     }
 
-    void heapifydown(int i) {
-
-        int l = 2*i + 1;
-        int r = 2*i + 2;
+    void heapifydown(int i)
+    {
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
         int smallest = i;
-        if(elementAt(l) < elementAt(i))
+        if (elementAt(l) < elementAt(i))
             smallest = l;
-        if(elementAt(r) < elementAt(smallest))
+        if (elementAt(r) < elementAt(smallest))
             smallest = r;
-        if(smallest != i)
+        if (smallest != i)
         {
             swap(i, smallest);
             heapifydown(smallest);
         }
-
     }
 
-    void remove() {
+    void remove()
+    {
 
-          if(size > 0)
-          {
-              mtx.lock();
-              swap(size - 1, 0);   //not sure if we can access size directly?
-              heap.pop_back();
-              size--;
-              mtx.unlock();
-              heapifydown(0);
-          }
+        mtx.lock();
 
+        if (size > 0)
+        {
+            swap(size - 1, 0); //not sure if we can access size directly?
+            heap.pop_back();
+            size--;
+            heapifydown(0);
+        }
+        mtx.unlock();
     }
 
-    int exists(int ele) {
+    int exists(int ele)
+    {
 
-          int i = 0, end = getSize();
-          while(i < end) {
-              if(elementAt(i) == ele)
-                  return 1;
-              i++;
-          }
-          return 0;
+        mtx.lock_shared();
 
+        int i = 0, end = getSize();
+        while (i < end)
+        {
+            if (elementAt(i) == ele)
+                return 1;
+            i++;
+        }
+        return 0;
+
+        mtx.unlock_shared();
     }
 
-    void print() {
+    void print()
+    {
 
-          int hsize = getSize(), i = 0;
-          while(i < hsize) {
-              cout << elementAt(i) << " ";
-              i++;
-          }
-          cout << "\n";
+        mtx.lock();
+
+        int hsize = getSize(), i = 0;
+        while (i < hsize)
+        {
+            cout << elementAt(i) << " ";
+            i++;
+        }
+        cout << "\n";
+
+        mtx.unlock();
     }
 
     int getSize()
     {
-        mtx.lock_shared();
         int res = size;
-        mtx.unlock_shared();
         return res;
     }
 };
