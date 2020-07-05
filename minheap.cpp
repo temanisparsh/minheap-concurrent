@@ -119,7 +119,7 @@ public:
         while (i < hsize)
         {
             //cout << elementAt(i) << " ";
-            cout << heap(i) << " ";
+            cout << heap[i] << " ";
             i++;
         }
         cout << "\n";
