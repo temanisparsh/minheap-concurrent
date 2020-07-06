@@ -30,16 +30,16 @@ In this case, we do not want the insert thread to acces the last element till th
 
 ### Edge Cases handled in Tests:
 * Test case 1:
-    Having atleast 2 threads perform different functions - insertion, deletion, search
+    Atleast 2 threads perform different functions - insertion, deletion, search considering all edge cases
 
 * Test case 2:
     Deletion and search when no elements are present
 
 * Test case 3:
-    Having atleast 2 threads perform different functions - insertion, deletion, search
+    Atleast 2 threads perform different functions - insertion, deletion, search
 
 * Test case 4:
-    Having atleast 2 threads perform different functions - insertion, deletion, search
-
+    Atleast 2 threads perform different functions - insertion, deletion, search
+    
 * Test case 5:
     Insertion of elements in a decreasing order with a few deletions and search
