@@ -2,7 +2,8 @@
 
 ### Steps to run:
 1. Clone this repo
-2. ```minheap.hpp``` can be directly included so make file is not needed. Test the file by running: 
+2. ```minheap.hpp``` can be directly included so make file is not needed.   
+    Test the file by running: 
     ```g++ main.cpp -lpthread```
     ```./a.out```
 
