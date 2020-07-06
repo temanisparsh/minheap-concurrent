@@ -26,3 +26,19 @@ In this case, we do not want the insert thread to acces the last element till th
 * To avoid a conflict between heapify and heapifyDown when it is highly likely for them to try and access a common element, however heapify would have that common element as parent and heapifyDown has it as a left / right node. To avoid this, we always try a lock on the child node first irrespective of the implementation. In case of conflicts, both threads try to acquire the common element first and then their current nodes. 
 
 * Using the read write locks along with the previous 2 points not only make it concurrent but also help improve the performance of allowing multiple threads to run in parallel even if they have conflicting operations. The code runs in synchronous mode whenever there is a possible conflicting operation though. To run it in synchronous mode, size_mtx is used to halt the rest of the threads, except the exists function.
+
+### Edge Cases handled in Tests:
+* Test case 1:
+    Having atleast 2 threads perform different functions - insertion, deletion, search
+
+* Test case 2:
+    Deletion and search when no elements are present
+
+* Test case 3:
+    Having atleast 2 threads perform different functions - insertion, deletion, search
+
+* Test case 4:
+    Having atleast 2 threads perform different functions - insertion, deletion, search
+
+* Test case 5:
+    Insertion of elements in a decreasing order with a few deletions and search
